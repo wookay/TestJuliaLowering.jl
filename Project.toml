@@ -1,0 +1,24 @@
+name = "TestJuliaLowering"
+uuid = "bf4868c1-a219-4035-92b3-7fed6d0f472f"
+version = "0.1.0"
+authors = ["WooKyoung Noh <wookay.noh@gmail.com>"]
+
+[deps]
+JuliaSyntax = "70703baa-626e-46a2-a12c-08ffd08c73b4"
+JuliaLowering = "f3c80556-a63f-4383-b822-37d64f81a311"
+JuliaSyntaxFormatter = "f8905de0-c3c2-461e-ad98-10cfc5e6268b"
+
+[sources]
+JuliaSyntax = {path = "sources/JuliaSyntax"}
+JuliaLowering = {path = "sources/JuliaLowering"}
+JuliaSyntaxFormatter = {url = "https://github.com/c42f/JuliaSyntaxFormatter.jl", rev = "main"}
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Jive = "ba5e3d4b-8524-549f-bc71-e76ad9e9deed"
+
+[targets]
+test = ["Test", "Jive"]
