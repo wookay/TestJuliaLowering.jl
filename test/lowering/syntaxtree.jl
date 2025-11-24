@@ -1,5 +1,5 @@
 using Jive
-@If VERSION >= v"1.13.0-DEV.880" module test_julialowering
+@If VERSION >= v"1.13.0-DEV.880" module test_julialowering_syntaxtree
 
 using Test
 using JuliaLowering: SyntaxTree, parsestmt
@@ -22,4 +22,4 @@ module Foo
 end\
 """
 
-end # module test_julialowering
+end # module test_julialowering_syntaxtree
