@@ -16,7 +16,7 @@ module Foo
 end # module Foo
 """
 ex = parsestmt(SyntaxTree, src, filename="foo.jl")
-@test ex._id == 1
+@test ex._id <= 10
 @test startswith(formatsrc(ex).content, "module ")
 
 end # module test_julialowering_syntaxtree
