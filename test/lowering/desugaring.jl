@@ -3,9 +3,8 @@ using Jive
 # @If VERSION >= v"1.13.0-DEV.880" module test_julialowering_desugaring
 
 using Test
-using JuliaLowering: JuliaLowering
-using .JuliaLowering: SyntaxGraph, SyntaxTree, Bindings, ScopeLayer, parsestmt, syntax_graph
-using JuliaSyntax: @K_str
+using JuliaLowering: JuliaLowering, Bindings, ScopeLayer
+using JuliaSyntax: SyntaxGraph, SyntaxTree, @K_str, syntax_graph, parsestmt
 
 # from julia/JuliaLowering/test/utils.jl
 function desugar(mod::Module, src::String)
