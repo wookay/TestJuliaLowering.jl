@@ -19,7 +19,7 @@ test_mod = Module(:TestMod)
 st = desugar(test_mod, """
 using Jive
 """)
-@test st isa SyntaxTree{SyntaxGraph{Dict{Symbol, Any}}}
+@test st isa SyntaxTree{Dict{Symbol, Any}}
 @test st.kind == K"block"
 
 end # module test_julialowering_desugaring
