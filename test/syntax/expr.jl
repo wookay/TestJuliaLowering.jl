@@ -1,6 +1,6 @@
 using Jive
-@useinside Main module test_juliasyntax_expr
-# @If VERSION >= v"1.14.0-DEV.1303" module test_juliasyntax_expr
+# @useinside Main module test_juliasyntax_expr
+@If VERSION >= v"1.14.0-DEV.1303" module test_juliasyntax_expr
 
 using Test
 using JuliaSyntax: SyntaxNode, parsestmt
@@ -26,7 +26,7 @@ using Base.Experimental: @VERSION, @set_syntax_version
 
 @test (@VERSION) isa @NamedTuple{syntax::VersionNumber, runtime::VersionNumber}
 (; syntax, runtime) = @VERSION
-@test syntax == v"1.13"
+@test syntax == v"1.14"
 @test runtime == VERSION
 
 const age1 = Base.get_world_counter()
@@ -34,7 +34,8 @@ const age1 = Base.get_world_counter()
 const age2 = Base.get_world_counter()
 @test age1 != age2
 
-# syntax == v"1.13"
+(; syntax, runtime) = @VERSION
+@test syntax == v"1.14"
 
 end # module ChangeSyntax
 
