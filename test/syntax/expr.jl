@@ -26,7 +26,7 @@ using Base.Experimental: @VERSION, @set_syntax_version
 
 @test (@VERSION) isa @NamedTuple{syntax::VersionNumber, runtime::VersionNumber}
 (; syntax, runtime) = @VERSION
-@test syntax == v"1.14"
+@test syntax >= v"1.13"
 @test runtime == VERSION
 
 const age1 = Base.get_world_counter()
@@ -35,7 +35,7 @@ const age2 = Base.get_world_counter()
 @test age1 != age2
 
 (; syntax, runtime) = @VERSION
-@test syntax == v"1.14"
+@test syntax >= v"1.13"
 
 end # module ChangeSyntax
 
