@@ -3,23 +3,24 @@ using Jive
 # @If VERSION >= v"1.13.0-DEV.880" module test_julialowering_desugaring
 
 using Test
-using JuliaLowering: JuliaLowering, Bindings, ScopeLayer
-using JuliaSyntax: SyntaxGraph, SyntaxTree, @K_str, syntax_graph, parsestmt
+using JuliaLowering: JuliaLowering
+using JuliaSyntax: SyntaxTree, @K_str, parsestmt
 
-# from julia/JuliaLowering/test/utils.jl
-function desugar(mod::Module, src::String)
-    ex = parsestmt(SyntaxTree, src, filename="foo.jl")
-    expr_compat_mode = true
-    ctx = JuliaLowering.DesugaringContext(syntax_graph(ex), Bindings(), ScopeLayer[], mod, expr_compat_mode)
-    JuliaLowering.expand_forms_2(ctx, ex)
-end
+# from julia/JuliaLowering/test/demo.jl
+function debug_lower(mod::Module, ex::SyntaxTree; expr_compat_mode::Bool=false, verbose::Bool=false, do_eval::Bool=false)
+    ctx1, ex_macroexpand = JuliaLowering.expand_forms_1(mod, ex, expr_compat_mode, Base.get_world_counter())
+    ctx2, ex_desugar = JuliaLowering.expand_forms_2(ctx1, ex_macroexpand)
+    (ctx1, ex_macroexpand, ctx2, ex_desugar)
+end # function debug_lower
 
-# from julia/JuliaLowering/test/desugaring
-test_mod = Module(:TestMod)
-st = desugar(test_mod, """
+M = Module(:TestMod)
+src = """
 using Jive
-""")
-@test st isa SyntaxTree{Dict{Symbol, Any}}
-@test st.kind == K"block"
+"""
+ex = parsestmt(SyntaxTree, src, filename="foo.jl")
+(ctx1, ex_macroexpand, ctx2, ex_desugar) = debug_lower(M, ex; verbose=true, do_eval=true)
+
+@test ex_desugar isa SyntaxTree{Dict{Symbol, Any}}
+@test ex_desugar.kind == K"block"
 
 end # module test_julialowering_desugaring
