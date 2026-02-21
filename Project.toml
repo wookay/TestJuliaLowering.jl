@@ -11,6 +11,8 @@ JuliaSyntaxFormatter = "f8905de0-c3c2-461e-ad98-10cfc5e6268b"
 [sources]
 JuliaSyntax = {path = "sources/JuliaSyntax"}
 JuliaLowering = {path = "sources/JuliaLowering"}
+Compiler = {path = "sources/Compiler"}
+CompilerDevTools = {path = "sources/Compiler/extras/CompilerDevTools"}
 JuliaSyntaxFormatter = {url = "https://github.com/c42f/JuliaSyntaxFormatter.jl", rev = "main"}
 
 [compat]
@@ -22,6 +24,8 @@ FileWatching = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 REPL = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 Jive = "ba5e3d4b-8524-549f-bc71-e76ad9e9deed"
+Compiler = "807dbc54-b67e-4c79-8afb-eafe4df6f2e1"
+CompilerDevTools = "92b2d91f-d2bd-4c05-9214-4609ac33433f"
 
 [targets]
-test = ["Test", "FileWatching", "REPL", "Markdown", "Jive"]
+test = ["Test", "FileWatching", "REPL", "Markdown", "Jive", "Compiler", "CompilerDevTools"]
