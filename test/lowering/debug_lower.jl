@@ -2,8 +2,9 @@ using Jive
 @If VERSION >= v"1.13.0-DEV.880" module test_julialowering_debug_lower
 
 using Test
-using JuliaSyntax: SyntaxTree, @K_str, parsestmt
+using JuliaSyntax: JuliaSyntax as JS
 using TestJuliaLowering.DebugLower: debug_lower
+using .JS: SyntaxTree, @K_str, parsestmt
 
 M = Module(:TestMod)
 src = """

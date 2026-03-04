@@ -3,10 +3,10 @@ using Jive
 # @If VERSION >= v"1.13.0-DEV.880" module test_juliasyntax_parseall
 
 using Test
-using JuliaSyntax: JuliaSyntax
+using JuliaSyntax: JuliaSyntax as JS
 
 this::String = read(@__FILE__, String)
-e::Expr = JuliaSyntax.parseall(Expr, this)
+e::Expr = JS.parseall(Expr, this)
 
 @test e.head === :toplevel
 @test e.args[1] == LineNumberNode(1)

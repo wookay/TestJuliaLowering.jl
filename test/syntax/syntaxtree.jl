@@ -2,7 +2,8 @@ using Jive
 @If VERSION >= v"1.13.0-DEV.880" module test_juliasyntax_syntaxtree
 
 using Test
-using JuliaSyntax: SyntaxTree, parsestmt
+using JuliaSyntax: JuliaSyntax as JS
+using .JS: SyntaxTree, parsestmt
 
 src = """
 module Foo

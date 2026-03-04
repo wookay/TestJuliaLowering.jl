@@ -2,7 +2,8 @@ using Jive
 @If VERSION >= v"1.14.0-DEV.1303" module test_juliasyntax_expr
 
 using Test
-using JuliaSyntax: SyntaxNode, parsestmt
+using JuliaSyntax: JuliaSyntax as JS
+using .JS: SyntaxNode, parsestmt
 using Base.Experimental: @VERSION, @set_syntax_version
 
 # from julia/JuliaSyntax/test/expr.jl

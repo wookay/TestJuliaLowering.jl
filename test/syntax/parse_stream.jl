@@ -3,8 +3,8 @@ using Jive
 # @If VERSION >= v"1.13.0-DEV.880" module test_juliasyntax_parse_stream
 
 using Test
-using JuliaSyntax: JuliaSyntax
-using .JuliaSyntax: @K_str, ParseStream, ParseStreamPosition, emit
+using JuliaSyntax: JuliaSyntax as JS
+using .JS: @K_str, ParseStream, ParseStreamPosition, emit
 
 # from julia/JuliaSyntax/test/parse_stream.jl
 
