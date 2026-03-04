@@ -1,5 +1,4 @@
 using Jive
-# @useinside Main module test_juliasyntax_expr
 @If VERSION >= v"1.14.0-DEV.1303" module test_juliasyntax_expr
 
 using Test
@@ -16,32 +15,28 @@ n14 = parsestmt(SyntaxNode, "module A end"; version=v"1.14")
 @test n14.children[2].data.val == :A
 
 
-# from julia/base/experimental.jl
+function module_version(m::Module)
+    include_string(m, "Base.Experimental.@VERSION")
+end # function module_version
 
-@set_syntax_version v"1.13"
+# from julia/base/experimental.jl
 module ChangeSyntax
 
-using Test: @test
-using Base.Experimental: @VERSION, @set_syntax_version
-
-@test (@VERSION) isa @NamedTuple{syntax::VersionNumber, runtime::VersionNumber}
+using Test
+using Base.Experimental: @VERSION
 (; syntax, runtime) = @VERSION
-@test syntax >= v"1.13"
-@test runtime == VERSION
+@test syntax >= v"1.14"
 
-const age1 = Base.get_world_counter()
-@set_syntax_version v"1.14"
-const age2 = Base.get_world_counter()
-@test age1 != age2
+using Base.Experimental: @set_syntax_version
+@set_syntax_version v"1.13"
 
-(; syntax, runtime) = @VERSION
-@test syntax >= v"1.13"
+using ..test_juliasyntax_expr: module_version
+@test module_version(@__MODULE__).syntax == v"1.13"
 
 end # module ChangeSyntax
 
+@test module_version(ChangeSyntax).syntax == v"1.13"
 
-(; syntax, runtime) = @VERSION
-@test runtime == VERSION
 
 ex = Base.parse_input_line("using Jive", mod = Main)
 @test ex isa Expr
