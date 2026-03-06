@@ -1,6 +1,6 @@
 using Jive
-# julia commit 061b78edce
-@If VERSION >= v"1.14.0-DEV.1834" module test_compilerdevtools_compiler_plugins
+# julia commit afdac9edc2
+@If VERSION >= v"1.14.0-DEV.1859" module test_compilerdevtools_compiler_plugins
 
 using Test
 

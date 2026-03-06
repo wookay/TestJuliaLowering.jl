@@ -1,2 +1,2 @@
 using Jive
-runtests(@__DIR__, targets="syntax lowering", into=Main)
+runtests(@__DIR__, into=Main)
