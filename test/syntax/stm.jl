@@ -15,6 +15,7 @@ end
 """
 
 ex = parseall(SyntaxTree, src)
+@test ex._id isa Int
 @test JS.kind(ex) == K"toplevel"
 @test JS.numchildren(ex) == 2
 

@@ -1,5 +1,5 @@
 using Jive
-@If VERSION >= v"1.14.0-DEV.1579" module test_juliasyntax_unalias_nodes
+@If VERSION >= v"1.14.0-DEV.1579" module test_juliasyntax_syntax_graph
 
 using Test
 using JuliaSyntax: JuliaSyntax as JS
@@ -23,6 +23,11 @@ end
 g = testgraph([1:2, 3:3, 4:4, 0:-1], [2, 3, 4, 4])
 st = SyntaxTree(g, 1)
 stu = JS.unalias_nodes(st)
-@test stu isa SyntaxTree{Dict{Symbol, Dict{Int, Any}}}
+@test st ≈ stu
 
-end # module test_juliasyntax_unalias_nodes
+g = testgraph([1:2, 0:-1, 3:3, 0:-1, 4:4, 0:-1, 0:-1], [2, 3, 4, 6])
+st = SyntaxTree(g, 1)
+stp = JS.prune(st)
+@test st ≈ stp
+
+end # module test_juliasyntax_syntax_graph
