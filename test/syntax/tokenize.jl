@@ -13,4 +13,8 @@ ts = collect(lexer)
 @test ts isa Vector{RawToken}
 @test ts[1].kind == K"ErrorInvalidNumericConstant"
 
+lexer = tokenize("√")
+ts = collect(lexer)
+@test ts[1].kind == K"√"
+
 end # module test_juliasyntax_tokenize
