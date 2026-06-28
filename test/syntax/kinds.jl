@@ -2,7 +2,7 @@ module test_juliasyntax_kinds
 
 using Test
 using JuliaSyntax: JuliaSyntax as JS
-using .JS: @K_str, Kind
+using .JS: @K_str, @KSet_str, Kind
 
 k = K"√"
 @test k == Kind("√")
@@ -24,5 +24,7 @@ diagnostics = validate_tokens(stream)
 @test isempty(diagnostics)
 s = build_tree(SyntaxNode, stream, keep_parens=true)
 @test s == t
+
+@test KSet"constdecl" == (K"constdecl",)
 
 end # module test_juliasyntax_kinds
