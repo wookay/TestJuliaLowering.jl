@@ -37,4 +37,7 @@ jobs:
         git sparse-checkout set JuliaSyntax JuliaLowering
         cd ../
     - uses: julia-actions/julia-buildpkg@v1
-    - uses: julia-actions/julia-runtest@v1
+    # - uses: julia-actions/julia-runtest@v1
+    - name: runtests
+      run: |
+           julia --color=yes --project=. -e 'import Pkg; Pkg.test(; coverage=false, julia_args=["--compile=min", "-O0", "--check-bounds=yes", "--compiled-modules=yes", "--depwarn=yes"], force_latest_compatible_version=false, allow_reresolve=true)'
