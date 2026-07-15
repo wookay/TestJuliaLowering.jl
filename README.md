@@ -8,9 +8,6 @@
 * JuliaSyntax
   - https://github.com/JuliaLang/julia/tree/master/JuliaSyntax
 
-* CompilerDevTools
-  - https://github.com/JuliaLang/julia/tree/master/Compiler/extras/CompilerDevTools
-
 
 ### repositories
  - FemtoCompiler 🛣️    https://github.com/wookay/FemtoCompiler.jl

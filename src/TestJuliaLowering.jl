@@ -1,5 +1,5 @@
 module TestJuliaLowering
 
-include("expand_forms.jl")
+include("scopes.jl")
 
 end # module TestJuliaLowering

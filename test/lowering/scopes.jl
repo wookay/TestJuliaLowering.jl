@@ -2,7 +2,7 @@ module test_julialowering_scopes
 
 using Test
 using JuliaLowering: JuliaLowering as JL
-using TestJuliaLowering.ExpandForms: resolve_and_get_bindings
+using TestJuliaLowering.Scopes: resolve_and_get_bindings
 
 # from julia/JuliaLowering/test/scopes.jl
 module AmbiguousLocal
