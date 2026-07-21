@@ -30,6 +30,13 @@ let bindings = resolve_and_get_bindings(AmbiguousLocal, :(while x < 5; x += 1; b
     @test global_binfo.mod === AmbiguousLocal
 end
 
+# from julia/JuliaLowering/test/scopes.jl
+# internal keyword body bindings
+bindings = resolve_and_get_bindings(Module(), :(f(; x=1) = 0))
+@test length(bindings) == 11
+kw_body_bindings = filter(b -> b.name == "#kw_body#f#0", bindings)
+@test length(kw_body_bindings) == 2
+
 
 #=
 mutable struct JuliaLowering.BindingInfo
