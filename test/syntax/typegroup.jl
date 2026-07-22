@@ -4,6 +4,7 @@ using Jive
 
 using Test
 using JuliaLowering: JuliaLowering as JL
+using InteractiveUtils
 
 # from julia/JuliaLowering/test/typedefs.jl
 test_mod = @__MODULE__
@@ -20,6 +21,14 @@ typegroup
     end
 end
 """; version=v"1.14") === nothing
+
 @test fieldtype(Node, :edges) === Vector{Edge}
+@test fieldtype(Edge, :from)  === Node
+@test fieldtype(Edge, :to)    === Node
+
+ms = @methods Core.resolve_typegroup(::Module, ::Core.SimpleVector, ::Core.SimpleVector)
+method = first(ms)
+@test method isa Method
+@test method.sig === Tuple{typeof(Core.resolve_typegroup), Module, Core.SimpleVector, Core.SimpleVector}
 
 end # module test_juliasyntax_typegroup
