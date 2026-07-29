@@ -15,7 +15,6 @@ end
 """
 
 ex = parseall(SyntaxTree, src)
-@test ex._id isa Int
 @test JS.kind(ex) == K"toplevel"
 @test JS.numchildren(ex) == 2
 
@@ -28,13 +27,13 @@ end
 (call_f, block) = call_blocks[1]
 @test call_f.kind == K"call"
 @test call_f[1].kind == K"Identifier"
-@test call_f[1].name_val == "f"
+@test call_f[1].value == "f"
 @test block.kind == K"block"
 @test block[1].source isa JS.SourceRef
 @test block[1].source.first_byte == 18
 @test block[1].source.last_byte == 19
 
 (call_g, block) = call_blocks[2]
-@test call_g[1].name_val == "g"
+@test call_g[1].value == "g"
 
 end # module test_juliasyntax_stm

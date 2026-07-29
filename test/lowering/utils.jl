@@ -46,7 +46,7 @@ ex = :(1 + 2)
 x = jl_lower(Mod, ex)
 ir = sprint(JL.print_ir, x)
 
-@test x isa SyntaxTree{Dict{Symbol, Dict{Int, Any}}}
+@test x isa SyntaxTree
 @test ir == "1   Main.test_julialowering_jl_lower.Mod.+\n2   (call %₁ 1 2)\n3   (return %₂)\n"
 
 end # module test_julialowering_jl_lower

@@ -1,6 +1,6 @@
 using Jive
-# julia commit 741f560dc4
-@If VERSION >= v"1.14.0-DEV.1858" module test_juliasyntax_typegroup
+# julia commit fd4f64f14d
+@If VERSION >= v"1.14.0-DEV.2823" module test_juliasyntax_typegroup
 
 using Test
 using JuliaLowering: JuliaLowering as JL
@@ -26,9 +26,9 @@ end
 @test fieldtype(Edge, :from)  === Node
 @test fieldtype(Edge, :to)    === Node
 
-ms = @methods Core.resolve_typegroup(::Module, ::Core.SimpleVector, ::Core.SimpleVector)
+ms = @methods Core.resolve_typegroup(mod::Module, typevars::Core.SimpleVector, struct_infos::Core.SimpleVector, old_types::Core.SimpleVector)
 method = first(ms)
 @test method isa Method
-@test method.sig === Tuple{typeof(Core.resolve_typegroup), Module, Core.SimpleVector, Core.SimpleVector}
+@test method.sig === Tuple{typeof(Core.resolve_typegroup), Module, Core.SimpleVector, Core.SimpleVector, Core.SimpleVector}
 
 end # module test_juliasyntax_typegroup
