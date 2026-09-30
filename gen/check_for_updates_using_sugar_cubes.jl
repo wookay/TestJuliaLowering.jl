@@ -26,9 +26,10 @@ function check_the_code_block_diff(src_path::String,
 end
 
 f = :(function resolve_and_get_bindings(
-          mod::Module, ex;
-          world::UInt = Base.get_world_counter(),
-          soft_scope::Union{Nothing,Bool} = nothing,) end)
+        mod::Module, ex;
+        world::UInt = Base.get_world_counter(),
+        soft_scope::Union{Nothing,Bool} = nothing,
+        version = JuliaLowering.JL_NEW_SYNTAX_VERSION,) end)
 check_the_code_block_diff(
     "src/scopes.jl", :(module Scopes $f end),
     "sources/JuliaLowering/test/scopes.jl", f

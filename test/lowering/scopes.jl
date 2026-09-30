@@ -32,9 +32,9 @@ end
 
 # from julia/JuliaLowering/test/scopes.jl
 # internal keyword body bindings
-bindings = resolve_and_get_bindings(Module(), :(f(; x=1) = 0))
+bindings = resolve_and_get_bindings(Module(), :(f(; x=1) = x))
 @test length(bindings) == 11
-kw_body_bindings = filter(b -> b.name == "#kw_body#f#0", bindings)
+kw_body_bindings = filter(b -> contains(b.name, "#kw_body#"), bindings)
 @test length(kw_body_bindings) == 2
 
 
