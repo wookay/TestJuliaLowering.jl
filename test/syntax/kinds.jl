@@ -25,6 +25,4 @@ diagnostics = validate_tokens(stream)
 s = build_tree(SyntaxNode, stream, keep_parens=true)
 @test s == t
 
-@test KSet"constdecl" == (K"constdecl",)
-
 end # module test_juliasyntax_kinds

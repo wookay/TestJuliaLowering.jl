@@ -16,8 +16,8 @@ function g()
 end
 """
 ex = parseall(SyntaxTree, src)
-@test JS.kind(ex) == K"toplevel"
-@test JL._value_string(ex) == """::K\"toplevel\""""
+@test ex.head === :toplevel
+@test JL._value_string(ex) == "::toplevel"
 @test sprint(JL._show_syntax_tree_sexpr, ex) == "(toplevel (function (call f) (block xs)) (function (call g) (block xs)))"
 @test sprint(JL._show_syntax_tree_sexpr, ex[1]) == "(function (call f) (block xs))"
 @test sprint(JL._show_syntax_tree_sexpr, ex[2]) == "(function (call g) (block xs))"
@@ -36,7 +36,8 @@ using .JS: SyntaxTree
 
 function jl_lower(mod::Module, ex::Expr)
     st = JL.expr_to_est(ex)
-    JL.lower(mod, st; expr_compat_mode=false)
+    soft_scope::Union{Nothing,Bool} = nothing
+    JL.lower(mod, st; soft_scope)
 end
 
 module Mod

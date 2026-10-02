@@ -20,7 +20,7 @@ typegroup
         to::Node
     end
 end
-"""; version=v"1.14") === nothing
+""") === nothing
 
 @test fieldtype(Node, :edges) === Vector{Edge}
 @test fieldtype(Edge, :from)  === Node
