@@ -2,7 +2,7 @@ module test_juliasyntax_stm
 
 using Test
 using JuliaSyntax: JuliaSyntax as JS
-using .JS: SyntaxTree, parseall, @K_str, @stm
+using .JS: Syntax, parseall
 
 M = Module(:TestMod)
 src = """
@@ -14,7 +14,7 @@ function g()
 end
 """
 
-ex = parseall(SyntaxTree, src)
+ex = parseall(Syntax, src)
 @test ex.head === :toplevel
 @test JS.numchildren(ex) == 2
 

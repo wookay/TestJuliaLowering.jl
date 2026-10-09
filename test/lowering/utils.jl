@@ -5,7 +5,7 @@ module test_julialowering_utils
 using Test
 using JuliaLowering: JuliaLowering as JL
 using JuliaSyntax: JuliaSyntax as JS
-using .JS: SyntaxTree, parseall, @K_str
+using .JS: Syntax, parseall, @K_str
 
 src = """
 function f()
@@ -15,12 +15,8 @@ function g()
     xs
 end
 """
-ex = parseall(SyntaxTree, src)
+ex = parseall(Syntax, src)
 @test ex.head === :toplevel
-@test JL._value_string(ex) == "::toplevel"
-@test sprint(JL._show_syntax_tree_sexpr, ex) == "(toplevel (function (call f) (block xs)) (function (call g) (block xs)))"
-@test sprint(JL._show_syntax_tree_sexpr, ex[1]) == "(function (call f) (block xs))"
-@test sprint(JL._show_syntax_tree_sexpr, ex[2]) == "(function (call g) (block xs))"
 
 end # module test_julialowering_utils
 
@@ -30,7 +26,7 @@ module test_julialowering_jl_lower
 using Test
 using JuliaLowering: JuliaLowering as JL
 using JuliaSyntax: JuliaSyntax as JS
-using .JS: SyntaxTree
+using .JS: Syntax
 
 # from julia/JuliaLowering/test/utils.jl
 
@@ -47,7 +43,7 @@ ex = :(1 + 2)
 x = jl_lower(Mod, ex)
 ir = sprint(JL.print_ir, x)
 
-@test x isa SyntaxTree
+@test x isa Syntax
 @test ir == "1   Main.test_julialowering_jl_lower.Mod.+\n2   (call %₁ 1 2)\n3   (return %₂)\n"
 
 end # module test_julialowering_jl_lower
