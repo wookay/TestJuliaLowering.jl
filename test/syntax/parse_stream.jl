@@ -13,7 +13,7 @@ using Jive
 """
 
 st = ParseStream(code)
-p1 = position(st)
+p1 = JS.position(st)
 @test emit(st, p1, K"toplevel") == ParseStreamPosition(0x00000001, 0x00000002)
 
 end # module test_juliasyntax_parse_stream
