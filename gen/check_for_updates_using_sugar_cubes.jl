@@ -28,7 +28,7 @@ end
 f = :(function resolve_and_get_bindings(
         mod::Module, ex;
         world::UInt = Base.get_world_counter(),
-        soft_scope::Union{Nothing,Bool} = nothing,
+        soft_scope::Bool = false,
         edition = JL_NEW_EDITION,) end)
 check_the_code_block_diff(
     "src/scopes.jl", :(module Scopes $f end),

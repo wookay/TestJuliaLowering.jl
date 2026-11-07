@@ -25,16 +25,32 @@ module test_julialowering_jl_lower
 
 using Test
 using JuliaLowering: JuliaLowering as JL
+using .JL: JuliaLowering, SyntaxTree, SyntaxContext, JL_NEW_EDITION
 using JuliaSyntax: JuliaSyntax as JS
-using .JS: Syntax
+using .JS: JuliaSyntax, Syntax
 
 # from julia/JuliaLowering/test/utils.jl
 
-function jl_lower(mod::Module, ex::Expr)
-    st = JL.expr_to_est(ex)
-    soft_scope::Union{Nothing,Bool} = nothing
-    JL.lower(mod, st; soft_scope)
+function _jl_lower(mod::Module, st::SyntaxTree)
+    JuliaLowering.lower(mod, st)
 end
+
+function _force_syntax(x, mod, edition::Tuple{Int, Int})
+    if x isa SyntaxTree
+        JuliaLowering._ensure_edition(x, edition)
+    elseif x isa AbstractString
+        # note macroexpand/lower aren't particularly useful with parseall
+        JuliaSyntax.parseall(SyntaxTree, x; version=VersionNumber(edition), ignore_warnings=true)
+    elseif x isa Expr
+        JuliaLowering.expr_to_est(x, Base.first_linenode(x),
+                                  SyntaxContext(mod, edition))
+    else
+        error("expected string or AST, got $x")
+    end
+end
+
+jl_lower(mod::Module, x; edition=JL_NEW_EDITION) =
+    _jl_lower(mod, _force_syntax(x, mod, edition))
 
 module Mod
 end
@@ -54,16 +70,47 @@ using Jive
 
 using Test
 using JuliaLowering: JuliaLowering as JL
+using .JL: JuliaLowering, SyntaxTree
 
 # from julia/JuliaLowering/test/utils.jl
 
-function fl_lower(mod::Module, x::Expr)
-    Base.fl_lower(x, mod, @__FILE__, @__LINE__, Base.get_world_counter())[1]
+function with_lowering(f, enable::Bool)
+    lowerer = Core._lower
+    toplevel_eval = Core._toplevel_eval
+    world = JuliaLowering._lowering_world[]
+    try
+        JuliaLowering.activate!(enable)
+        f()
+    finally
+        Core._setlowerer!(lowerer)
+        Core._set_toplevel_eval!(toplevel_eval)
+        JuliaLowering._lowering_world[] = world
+    end
 end
 
-function fl_eval(mod::Module, x::Expr)
-    Core.eval(mod, fl_lower(mod, x))
+with_flisp(f) = with_lowering(f, false)
+
+function fl_lower(mod::Module, x::Expr)
+    with_flisp() do
+        Base.fl_lower(mod, x, Base.get_world_counter(), false, Base.first_linenode(x))[1]
+    end
 end
+
+fl_lower(mod::Module, st::SyntaxTree; kws...) =
+    fl_lower(mod, JuliaLowering.est_to_expr(st); kws...)
+
+function fl_eval(mod::Module, x::Expr)
+    with_flisp() do
+        Core.eval(mod, x)
+    end
+end
+
+fl_eval(mod::Module, code::AbstractString) =
+    fl_eval(mod, Meta.parseall(code; filename="string", mod))
+
+fl_eval(mod::Module, st::SyntaxTree; kws...) =
+    fl_eval(mod, JuliaLowering.est_to_expr(st); kws...)
+
 
 module Mod
 end
